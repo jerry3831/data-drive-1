@@ -1,0 +1,16 @@
+[theme]
+
+#primary color for elements of focus
+primaryColor = '#d33682'
+
+#background color for the main content area
+backgroundColor = "#002b36"
+
+#background for sidebar and interactive widgets
+secondaryBackgroundColor = "#0d5a6dff"
+
+#color for most of the text throughout the application
+textColor = "#ffffff"
+
+[client]
+toolbarMode = "minimal"
