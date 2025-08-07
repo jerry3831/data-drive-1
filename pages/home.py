@@ -1,5 +1,5 @@
 import streamlit as st
-from pages import pseudo_labeling
+from pages import pseudo
 
 #* landing page configuration
 st.set_page_config(layout="wide")
