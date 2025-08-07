@@ -1,11 +1,9 @@
 import streamlit as st
+st.set_page_config(layout="wide")
 import pandas as pd
 from models.pseudo_gen2 import PseudoLabeler
 
-# -------------------------------
-# Caching Functions
-# -------------------------------
-
+# checking functions
 @st.cache_data(show_spinner="Reading uploaded file...")
 def load_file(uploaded_file):
     if uploaded_file.name.endswith(".csv"):
@@ -23,10 +21,7 @@ def run_pseudo_labeling(df, target_col, threshold):
     return combined, pl
 
 
-# -------------------------------
-# Session State Initialization
-# -------------------------------
-
+# session state initialization
 defaults = {
     "df": None,
     "pl": None,
@@ -39,10 +34,7 @@ for key, val in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = val
 
-# -------------------------------
-# UI Layout
-# -------------------------------
-
+# UI layout
 st.header("Pseudo-Labeling Configuration")
 st.markdown("Configure the pseudo-labeling process by uploading a dataset and selecting the target variable with missing labels.")
 
@@ -64,10 +56,7 @@ else:
     st.info("Please upload a file to proceed.")
     df = None
 
-# -------------------------------
-# Pseudo-labeling Setup
-# -------------------------------
-
+# pseudo labeling set-up
 if df is not None:
     target_col = st.selectbox("Select Target Column", df.columns, key="target_col_tab1")
     threshold = st.slider("Confidence Threshold for Pseudo-Labeling", 0.5, 1.0, 0.9, 0.01, key="threshold_tab1")
@@ -106,7 +95,8 @@ if df is not None:
                         key="download_button_tab1"
                     )
                 with col2:
-                    st.button("📊 Go to Analysis", on_click=lambda: st.switch_page("views/analysis.py"), key="analysis_button_tab1")
+                    if st.button("📊 Go to Analysis"):
+                        st.switch_page("pages/analysis.py")
 
             except Exception as e:
                 st.error(f"An error occurred during pseudo-labeling: {e}")

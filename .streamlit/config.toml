@@ -1,7 +1,8 @@
 [theme]
 
+base="dark"
 #primary color for elements of focus
-primaryColor = '#d33682'
+primaryColor = '#d3699cff'
 
 #background color for the main content area
 backgroundColor = "#002b36"

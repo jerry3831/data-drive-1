@@ -1,61 +1,53 @@
 import streamlit as st
+#? default page layout
+st.set_page_config(layout="wide")
 import pandas as pd
 import numpy as np
 import requests 
 import re
+from pathlib import Path
 
-# logo
-st.logo("assets/logo2.png", size='large')
+# Sidebar logo
+img_path = Path("assets/image.jpg")
+if img_path.exists():
+    st.sidebar.image(str(img_path), use_container_width=True)
+else:
+    st.sidebar.warning("Logo image not found.")
 
 home = st.Page(
-    page = "views/home.py",
+    page = "pages/home.py",
     title = "Home",
     icon = ":material/home:",
     default = True
 )
 
 pseudo_labeling = st.Page(
-    page = "views/pseudo_labeling.py",
+    page = "pages/pseudo.py",
     title = "Pseudo Labeling",
-    icon = ":material/label:",
-    default = False
+    icon = ":material/label:"
 )
 
 analysis = st.Page(
-    page = "views/analysis.py",
+    page = "pages/analysis.py",
     title = "Analysis",
     icon = ":material/analytics:",
     default = False
 )
 
 model_training = st.Page(
-    page = "views/model_training.py",
+    page = "pages/model_training.py",
     title = "Model Training",
     icon = ":material/network_intelligence_history:",
     default = False
 )
 
 evaluation = st.Page(
-    page = "views/evaluation.py",
+    page = "pages/evaluation.py",
     title = "Evaluation",
     icon = ":material/check_circle:",
     default = False
 )
 
-contact = st.Page(
-    page = "views/contact.py",
-    title = "Contact Developers",
-    icon = ":material/contact_support:",
-    default = False
-)
-
-documentation = st.Page(
-    page = "views/documentation.py",
-    title = "Documentation",
-    icon = ":material/book:",
-    default = False
-)
-
-nav = st.navigation(pages=[home, pseudo_labeling, analysis, model_training, evaluation, contact, documentation])
+nav = st.navigation(pages=[home, pseudo_labeling, analysis, model_training, evaluation])
 
 nav.run()

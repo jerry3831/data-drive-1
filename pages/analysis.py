@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(layout="wide")
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -46,7 +47,7 @@ if st.session_state['combined'] is not None and st.session_state['pl'] is not No
             ax.set_ylabel("Frequency")
             st.pyplot(fig)
         else:
-            st.info("No confidence data available to display. Run pseudo-labeling first or ensure your PseudoLabeler assigns and stores 'last_confidences'.")
+            st.info("No confidence data available to display.")
 
         st.subheader("3. Custom Variable Analysis")
         st.write("Select variables and an analysis type to explore distributions or relationships.")

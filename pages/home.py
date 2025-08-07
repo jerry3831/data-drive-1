@@ -1,18 +1,9 @@
 import streamlit as st
-from views import pseudo_labeling
+from pages import pseudo_labeling
 
-# Set page config
-st.set_page_config(
-    page_title="Welcome | Pseudo Labeling App",
-    page_icon=":material/in_home_mode:",
-    layout="wide",
-)
+#* landing page configuration
+st.set_page_config(layout="wide")
 
-# Use query params to navigate to other pages
-def navigate_to(tab_name):
-    st.experimental_set_query_params(tab=tab_name)  # Correct method
-
-# Title and Welcome
 st.title("SSL Pseudo Labeling App")
 
 st.markdown("""
@@ -62,7 +53,7 @@ st.markdown("---")
 
 # Get Started Button
 if st.button("🚀 Get Started with Pseudo Labeling"):
-    st.switch_page("views/pseudo_labeling.py")  # Navigate to pseudo-labeling page
+    st.switch_page("pages/pseudo.py")  # Navigate to pseudo-labeling page
 
 # Footer Note
 st.markdown("""

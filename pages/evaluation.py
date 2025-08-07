@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(layout="wide")
 from sklearn.metrics import accuracy_score, classification_report, ConfusionMatrixDisplay, roc_curve, auc
 import pandas as pd 
 import matplotlib.pyplot as plt

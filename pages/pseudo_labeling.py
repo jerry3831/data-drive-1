@@ -1,6 +1,8 @@
 import streamlit as st
+st.set_page_config(layout="wide")
 from models.pseudo_gen2 import PseudoLabeler
 import pandas as pd
+
 
 #TODO: Initializing session state variables
 if 'df' not in st.session_state:
@@ -86,7 +88,7 @@ if df is not None:
                         )
                     with col2:
                         st.markdown("#### 📊 View analysis")
-                        st.button("Analysis", on_click=lambda: st.switch_page("views/analysis.py"), key="analysis_button_tab1")
+                        st.button("Analysis", on_click=lambda: st.switch_page("pages/analysis.py"), key="analysis_button_tab1")
                 else:
                     st.warning("Pseudo-labeling did not complete successfully. Check for errors above.")
 else:

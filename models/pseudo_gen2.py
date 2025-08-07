@@ -18,6 +18,7 @@ class PseudoLabeler:
         self.feature_encoders = {}
         self.combined_df = None
         self.is_fitted = False
+        self.last_confidences = None
 
     def encode_features(self, df):
         df_encoded = df.copy()
@@ -67,6 +68,9 @@ class PseudoLabeler:
         pseudo_df = self.transform_features(pseudo_df)
         pseudo_df[self.target_col] = pseudo_labels
 
+        #* storing last_confidences
+        self.last_confidences = max_probs[confident_idx]
+
         #? Combine and decode
         combined_encoded = pd.concat([X_train.assign(**{self.target_col: y_train}), pseudo_df], ignore_index=True)
         combined_encoded[self.target_col] = self.label_encoder.inverse_transform(combined_encoded[self.target_col])
@@ -77,7 +81,14 @@ class PseudoLabeler:
         self.combined_df = combined_encoded
         self.is_fitted = True
         return self.combined_df
+    
+    #? returning confidence data
+    def get_last_confidences(self):
+        if self.last_confidences is None:
+            raise RuntimeError("No confidences available. Fit the model first.")
+        return self.last_confidences
 
+    #? Option to use trained model to make predictions with all features
     def predict(self, df):
         if not self.is_fitted:
             raise RuntimeError("Model must be fitted first.")
@@ -86,12 +97,14 @@ class PseudoLabeler:
         preds = self.model.predict(df_transformed)
         return self.label_encoder.inverse_transform(preds)
 
+    #? Option to save the model using joblib
     def save(self, filepath_prefix):
         joblib.dump(self.model, f"{filepath_prefix}_model.pkl")
         joblib.dump(self.label_encoder, f"{filepath_prefix}_target_encoder.pkl")
         joblib.dump(self.feature_encoders, f"{filepath_prefix}_feature_encoders.pkl")
         joblib.dump(self.combined_df, f"{filepath_prefix}_combined_data.pkl")
 
+    #? option to load the saved model after running P-L
     def load(self, filepath_prefix):
         self.model = joblib.load(f"{filepath_prefix}_model.pkl")
         self.label_encoder = joblib.load(f"{filepath_prefix}_target_encoder.pkl")
