@@ -37,17 +37,20 @@ if st.session_state['combined'] is not None and st.session_state['pl'] is not No
 
 
         st.subheader("2. Confidence Distribution Histogram")
-        st.write("This histogram shows the distribution of confidence scores for the pseudo-labeled data.")
+        col_desc, col_plot = st.columns(2)
+        with col_desc:
+            st.write("This histogram shows the distribution of confidence scores for the pseudo-labeled data.")
         # Accessing 'last_confidences' from the imported PseudoLabeler instance
-        if hasattr(pl_instance, 'last_confidences') and pl_instance.last_confidences is not None and pl_instance.last_confidences.size > 0:
-            fig, ax = plt.subplots(figsize=(7, 5)) # Adjusted size
-            sns.histplot(pl_instance.last_confidences, bins=20, kde=True, color='skyblue', edgecolor='black', ax=ax)
-            ax.set_title("Confidence Distribution of Pseudo-Labels")
-            ax.set_xlabel("Confidence Score")
-            ax.set_ylabel("Frequency")
-            st.pyplot(fig)
-        else:
-            st.info("No confidence data available to display.")
+        with col_plot:
+            if hasattr(pl_instance, 'last_confidences') and pl_instance.get_last_confidences() is not None and pl_instance.get_last_confidences().size > 0:
+                fig, ax = plt.subplots(figsize=(4, 3)) # Adjusted size
+                sns.histplot(pl_instance.get_last_confidences(), bins=20, kde=True, color='skyblue', edgecolor='black', ax=ax)
+                ax.set_title("Confidence Distribution of Pseudo-Labels")
+                ax.set_xlabel("Confidence Score")
+                ax.set_ylabel("Frequency")
+                st.pyplot(fig)
+            else:
+                st.info("No confidence data available to display.")
 
         st.subheader("3. Custom Variable Analysis")
         st.write("Select variables and an analysis type to explore distributions or relationships.")
